@@ -9,9 +9,16 @@ export async function proxy(request: NextRequest) {
   const isAuthPage = pathname === "/login" || pathname === "/signup";
   const isDashboard = pathname.startsWith("/dashboard");
   const isOnboarding = pathname.startsWith("/onboarding");
+  // App routes: /{workspaceSlug}/... — any non-root path that isn't a known public route
+  const isAppRoute =
+    !isAuthPage &&
+    !isDashboard &&
+    !isOnboarding &&
+    pathname !== "/" &&
+    !pathname.startsWith("/auth/");
 
   // Unauthenticated users cannot access protected routes
-  if (!user && (isDashboard || isOnboarding)) {
+  if (!user && (isDashboard || isOnboarding || isAppRoute)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
