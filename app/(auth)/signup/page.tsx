@@ -3,11 +3,19 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { MailCheck } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -16,6 +24,7 @@ export default function SignupPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [emailSent, setEmailSent] = useState(false);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -23,23 +32,59 @@ export default function SignupPage() {
     setLoading(true);
 
     const supabase = createClient();
-    const { error } = await supabase.auth.signUp({
+    const { data, error } = await supabase.auth.signUp({
       email,
       password,
       options: {
         data: { full_name: fullName },
-        emailRedirectTo: `${window.location.origin}/auth/callback`,
+        emailRedirectTo: `${process.env.NEXT_PUBLIC_APP_URL ?? window.location.origin}/auth/callback`,
       },
     });
 
+    setLoading(false);
+
     if (error) {
       setError(error.message);
-      setLoading(false);
       return;
     }
 
+    if (!data.session) {
+      // Email confirmation is enabled — session won't exist until the link is clicked
+      setEmailSent(true);
+      return;
+    }
+
+    // Email confirmation is disabled — session is ready, go straight to onboarding
     router.push("/onboarding");
     router.refresh();
+  }
+
+  if (emailSent) {
+    return (
+      <div className="flex min-h-screen items-center justify-center bg-background px-4">
+        <Card className="w-full max-w-sm text-center">
+          <CardHeader className="items-center gap-2">
+            <MailCheck className="size-10 text-primary" />
+            <CardTitle className="text-xl font-bold">Check your email</CardTitle>
+            <CardDescription>
+              We sent a confirmation link to <strong>{email}</strong>. Click it
+              to activate your account and get started.
+            </CardDescription>
+          </CardHeader>
+          <CardFooter className="flex-col gap-2">
+            <p className="text-center text-sm text-muted-foreground">
+              Already confirmed?{" "}
+              <Link
+                href="/login"
+                className="font-medium text-foreground underline underline-offset-4"
+              >
+                Sign in
+              </Link>
+            </p>
+          </CardFooter>
+        </Card>
+      </div>
+    );
   }
 
   return (
@@ -47,7 +92,9 @@ export default function SignupPage() {
       <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
-          <CardDescription>Start managing your projects with Orbit</CardDescription>
+          <CardDescription>
+            Start managing your projects with Orbit
+          </CardDescription>
         </CardHeader>
 
         <form onSubmit={handleSubmit}>
@@ -105,7 +152,10 @@ export default function SignupPage() {
             </Button>
             <p className="text-center text-sm text-muted-foreground">
               Already have an account?{" "}
-              <Link href="/login" className="font-medium text-foreground underline underline-offset-4">
+              <Link
+                href="/login"
+                className="font-medium text-foreground underline underline-offset-4"
+              >
                 Sign in
               </Link>
             </p>

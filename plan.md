@@ -37,15 +37,15 @@
 - [x] `proxy.ts` — redirect to `/onboarding` if `onboarding_complete = false`
 
 ## M4 — Workspaces & Boards
-- [ ] `app/(app)/layout.tsx` — authenticated sidebar shell
-- [ ] `app/(app)/[workspaceSlug]/page.tsx` — workspace home
-- [ ] `app/(app)/[workspaceSlug]/boards/page.tsx` — board grid
-- [ ] `app/(app)/[workspaceSlug]/boards/[boardId]/page.tsx` — single board shell
-- [ ] `components/app/sidebar.tsx` — nav + workspace switcher
-- [ ] `components/app/board-card.tsx`
-- [ ] `components/app/create-board-dialog.tsx`
-- [ ] `app/api/workspaces/[workspaceSlug]/boards/route.ts` — GET + POST
-- [ ] `lib/data/boards.ts` — query helpers
+- [x] `app/(app)/layout.tsx` — authenticated sidebar shell
+- [x] `app/(app)/[workspaceSlug]/page.tsx` — workspace home
+- [x] `app/(app)/[workspaceSlug]/boards/page.tsx` — board grid
+- [x] `app/(app)/[workspaceSlug]/boards/[boardId]/page.tsx` — single board shell
+- [x] `components/app/sidebar.tsx` — nav + workspace switcher
+- [x] `components/app/board-card.tsx`
+- [x] `components/app/create-board-dialog.tsx`
+- [x] `app/api/workspaces/[workspaceSlug]/boards/route.ts` — GET + POST
+- [x] `lib/data/boards.ts` — query helpers
 
 ## M5 — Kanban Board with Drag-and-Drop
 - [ ] `components/kanban/board.tsx` — DndContext host
