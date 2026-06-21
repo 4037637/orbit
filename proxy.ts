@@ -3,18 +3,40 @@ import { updateSession } from "@/lib/supabase/middleware";
 
 export async function proxy(request: NextRequest) {
   const response = NextResponse.next({ request });
-  const { user } = await updateSession(request, response);
+  const { user, supabase } = await updateSession(request, response);
 
   const { pathname } = request.nextUrl;
+  const isAuthPage = pathname === "/login" || pathname === "/signup";
+  const isDashboard = pathname.startsWith("/dashboard");
+  const isOnboarding = pathname.startsWith("/onboarding");
 
-  // Redirect unauthenticated users away from protected routes
-  if (pathname.startsWith("/dashboard") && !user) {
+  // Unauthenticated users cannot access protected routes
+  if (!user && (isDashboard || isOnboarding)) {
     return NextResponse.redirect(new URL("/login", request.url));
   }
 
-  // Redirect authenticated users away from auth pages
-  if ((pathname === "/login" || pathname === "/signup") && user) {
-    return NextResponse.redirect(new URL("/dashboard", request.url));
+  // For authenticated users on auth pages, dashboard, or onboarding:
+  // check onboarding status and route accordingly
+  if (user && (isAuthPage || isDashboard || isOnboarding)) {
+    const { data: profile } = await supabase
+      .from("profiles")
+      .select("onboarding_complete")
+      .eq("id", user.id)
+      .single();
+
+    const done = profile?.onboarding_complete ?? false;
+
+    // Auth pages and dashboard before onboarding → send to onboarding (or dashboard if done)
+    if (isAuthPage || (isDashboard && !done)) {
+      return NextResponse.redirect(
+        new URL(done ? "/dashboard" : "/onboarding", request.url)
+      );
+    }
+
+    // Completed onboarding users don't need to re-visit /onboarding
+    if (isOnboarding && done) {
+      return NextResponse.redirect(new URL("/dashboard", request.url));
+    }
   }
 
   return response;

@@ -28,13 +28,13 @@
 - [ ] `supabase start` — requires Docker Desktop running locally
 
 ## M3 — Onboarding & Welcome Email
-- [ ] `app/onboarding/page.tsx` — multi-step wizard shell
-- [ ] `components/onboarding/workspace-form.tsx`
-- [ ] `components/onboarding/team-invite-form.tsx`
-- [ ] `components/onboarding/onboarding-done.tsx`
-- [ ] `app/api/onboarding/route.ts` — create workspace, set onboarding_complete, send email
-- [ ] `lib/email/resend.ts` — `sendWelcomeEmail()`
-- [ ] `proxy.ts` — redirect to `/onboarding` if `onboarding_complete = false`
+- [x] `app/onboarding/page.tsx` — multi-step wizard shell
+- [x] `components/onboarding/workspace-form.tsx`
+- [x] `components/onboarding/team-invite-form.tsx`
+- [x] `components/onboarding/onboarding-done.tsx`
+- [x] `app/api/onboarding/route.ts` — create workspace, set onboarding_complete, send email
+- [x] `lib/email/resend.ts` — `sendWelcomeEmail()`
+- [x] `proxy.ts` — redirect to `/onboarding` if `onboarding_complete = false`
 
 ## M4 — Workspaces & Boards
 - [ ] `app/(app)/layout.tsx` — authenticated sidebar shell
