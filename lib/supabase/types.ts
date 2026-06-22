@@ -1,4 +1,4 @@
-﻿export type Json =
+export type Json =
   | string
   | number
   | boolean
@@ -223,25 +223,25 @@ export type Database = {
       }
       labels: {
         Row: {
-          id: string
-          workspace_id: string
-          name: string
           color: string
           created_at: string
+          id: string
+          name: string
+          workspace_id: string
         }
         Insert: {
-          id?: string
-          workspace_id: string
-          name: string
           color?: string
           created_at?: string
+          id?: string
+          name: string
+          workspace_id: string
         }
         Update: {
-          id?: string
-          workspace_id?: string
-          name?: string
           color?: string
           created_at?: string
+          id?: string
+          name?: string
+          workspace_id?: string
         }
         Relationships: [
           {
@@ -282,6 +282,54 @@ export type Database = {
           updated_at?: string
         }
         Relationships: []
+      }
+      workspace_invitations: {
+        Row: {
+          accepted_at: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          token: string
+          workspace_id: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by: string
+          token?: string
+          workspace_id: string
+        }
+        Update: {
+          accepted_at?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          token?: string
+          workspace_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "workspace_invitations_invited_by_fkey"
+            columns: ["invited_by"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "workspace_invitations_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
+            referencedColumns: ["id"]
+          },
+        ]
       }
       workspace_members: {
         Row: {
@@ -374,7 +422,11 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      is_workspace_member: {
+        Args: { p_workspace_id: string }
+        Returns: boolean
+      }
+      is_workspace_owner: { Args: { p_workspace_id: string }; Returns: boolean }
     }
     Enums: {
       issue_priority: "none" | "low" | "medium" | "high" | "urgent"

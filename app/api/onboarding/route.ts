@@ -54,11 +54,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: memberError.message }, { status: 400 });
   }
 
-  // Mark onboarding complete
+  // Mark onboarding complete — upsert guards against a missing profile row
+  // (can happen if db was reset but auth.users was not)
   const { error: profileError } = await supabase
     .from("profiles")
-    .update({ onboarding_complete: true })
-    .eq("id", user.id);
+    .upsert({ id: user.id, email: user.email ?? "", onboarding_complete: true }, { onConflict: "id" });
 
   if (profileError) {
     await supabase.from("workspaces").delete().eq("id", workspaceId);

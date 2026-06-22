@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutGrid, ChevronsUpDown, Plus, LogOut } from "lucide-react";
+import { LayoutGrid, ChevronsUpDown, Plus, LogOut, Settings } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -93,6 +93,17 @@ export function Sidebar({ workspaces, user }: SidebarProps) {
         >
           <LayoutGrid className="size-4" />
           Boards
+        </Link>
+        <Link
+          href={`/${currentSlug}/settings`}
+          className={cn(
+            buttonVariants({ variant: "ghost", size: "sm" }),
+            "w-full justify-start gap-2",
+            pathname.startsWith(`/${currentSlug}/settings`) && "bg-accent text-accent-foreground"
+          )}
+        >
+          <Settings className="size-4" />
+          Settings
         </Link>
       </nav>
 
