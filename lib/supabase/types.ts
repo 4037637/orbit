@@ -117,6 +117,36 @@ export type Database = {
           },
         ]
       }
+      issue_labels: {
+        Row: {
+          issue_id: string
+          label_id: string
+        }
+        Insert: {
+          issue_id: string
+          label_id: string
+        }
+        Update: {
+          issue_id?: string
+          label_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "issue_labels_issue_id_fkey"
+            columns: ["issue_id"]
+            isOneToOne: false
+            referencedRelation: "issues"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "issue_labels_label_id_fkey"
+            columns: ["label_id"]
+            isOneToOne: false
+            referencedRelation: "labels"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       issues: {
         Row: {
           assignee_id: string | null
@@ -125,6 +155,7 @@ export type Database = {
           created_at: string
           created_by: string
           description: string | null
+          due_date: string | null
           id: string
           position: number
           priority: Database["public"]["Enums"]["issue_priority"]
@@ -138,6 +169,7 @@ export type Database = {
           created_at?: string
           created_by: string
           description?: string | null
+          due_date?: string | null
           id?: string
           position?: number
           priority?: Database["public"]["Enums"]["issue_priority"]
@@ -151,6 +183,7 @@ export type Database = {
           created_at?: string
           created_by?: string
           description?: string | null
+          due_date?: string | null
           id?: string
           position?: number
           priority?: Database["public"]["Enums"]["issue_priority"]
@@ -184,6 +217,38 @@ export type Database = {
             columns: ["created_by"]
             isOneToOne: false
             referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      labels: {
+        Row: {
+          id: string
+          workspace_id: string
+          name: string
+          color: string
+          created_at: string
+        }
+        Insert: {
+          id?: string
+          workspace_id: string
+          name: string
+          color?: string
+          created_at?: string
+        }
+        Update: {
+          id?: string
+          workspace_id?: string
+          name?: string
+          color?: string
+          created_at?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "labels_workspace_id_fkey"
+            columns: ["workspace_id"]
+            isOneToOne: false
+            referencedRelation: "workspaces"
             referencedColumns: ["id"]
           },
         ]

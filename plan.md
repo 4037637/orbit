@@ -48,15 +48,15 @@
 - [x] `lib/data/boards.ts` — query helpers
 
 ## M5 — Kanban Board with Drag-and-Drop
-- [ ] `components/kanban/board.tsx` — DndContext host
-- [ ] `components/kanban/column.tsx` — droppable column
-- [ ] `components/kanban/issue-card.tsx` — draggable card
-- [ ] `components/kanban/issue-detail-sheet.tsx` — edit sheet
-- [ ] `components/kanban/create-issue-dialog.tsx`
-- [ ] `app/api/issues/route.ts` — POST
-- [ ] `app/api/issues/[issueId]/route.ts` — PATCH + DELETE
-- [ ] `lib/data/issues.ts` — query helpers
-- [ ] Fractional indexing reorder (midpoint strategy)
+- [x] `components/kanban/board.tsx` — DndContext host
+- [x] `components/kanban/column.tsx` — droppable column
+- [x] `components/kanban/issue-card.tsx` — draggable card
+- [x] `components/kanban/issue-detail-sheet.tsx` — edit sheet
+- [x] `components/kanban/create-issue-dialog.tsx`
+- [x] `app/api/issues/route.ts` — POST
+- [x] `app/api/issues/[issueId]/route.ts` — PATCH + DELETE
+- [x] `lib/data/issues.ts` — query helpers
+- [x] Fractional indexing reorder (midpoint strategy)
 
 ## M6 — Team & User Management
 - [ ] `app/(app)/[workspaceSlug]/settings/layout.tsx` — settings sidebar
