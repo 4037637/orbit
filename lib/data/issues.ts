@@ -12,6 +12,8 @@ export type Member = {
   email: string;
   fullName: string | null;
   avatarUrl: string | null;
+  role: 'owner' | 'member';
+  joinedAt: string | null;
 };
 
 export type IssueWithLabels = Issue & { labels: Label[] };
@@ -104,13 +106,15 @@ export async function getWorkspaceMembers(
 ): Promise<Member[]> {
   const { data } = await supabase
     .from("workspace_members")
-    .select("user_id, profiles(email, full_name, avatar_url)")
+    .select("user_id, role, joined_at, profiles(email, full_name, avatar_url)")
     .eq("workspace_id", workspaceId);
 
   return (data ?? []).map((row) => {
     const p = row.profiles as { email: string; full_name: string | null; avatar_url: string | null } | null;
     return {
       userId: row.user_id,
+      role: row.role as 'owner' | 'member',
+      joinedAt: row.joined_at,
       email: p?.email ?? "",
       fullName: p?.full_name ?? null,
       avatarUrl: p?.avatar_url ?? null,
