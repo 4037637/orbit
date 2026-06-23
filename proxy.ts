@@ -15,7 +15,8 @@ export async function proxy(request: NextRequest) {
     !isDashboard &&
     !isOnboarding &&
     pathname !== "/" &&
-    !pathname.startsWith("/auth/");
+    !pathname.startsWith("/auth/") &&
+    !pathname.startsWith("/api/");
 
   // Unauthenticated users cannot access protected routes
   if (!user && (isDashboard || isOnboarding || isAppRoute)) {

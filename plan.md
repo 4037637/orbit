@@ -66,14 +66,26 @@
 - [ ] `app/api/workspaces/[workspaceSlug]/members/[memberId]/route.ts` — PATCH + DELETE
 - [ ] `lib/data/members.ts` — query helpers with owner-only RLS
 
-## M7 — Stripe Billing (Lite / Pro)
-- [ ] `lib/stripe.ts` — SDK singleton
-- [ ] `lib/plans.ts` — `canUseFeature(plan, feature)`
-- [ ] `app/(app)/[workspaceSlug]/settings/billing/page.tsx`
-- [ ] `app/api/stripe/checkout/route.ts`
-- [ ] `app/api/stripe/portal/route.ts`
-- [ ] `app/api/stripe/webhook/route.ts` — subscription lifecycle events
-- [ ] Stripe products + prices configured in dashboard (Lite/Pro)
+## M7 — Stripe Billing (Free / Lite / Pro)
+- [x] `supabase/migrations/20260623000000_billing_on_profiles.sql` — move plan+stripe fields to profiles, add 'free' tier
+- [x] `lib/plans.ts` — PLANS config + canCreateWorkspace / canInviteMember helpers
+- [x] `lib/stripe.ts` — SDK singleton
+- [x] `app/api/workspaces/route.ts` — POST create workspace (plan-gated)
+- [x] `app/api/stripe/checkout/route.ts`
+- [x] `app/api/stripe/portal/route.ts`
+- [x] `app/api/stripe/webhook/route.ts` — checkout.session.completed, subscription.updated/deleted
+- [x] `app/api/workspaces/[workspaceSlug]/members/route.ts` — member limit enforcement added
+- [x] `app/(app)/[workspaceSlug]/settings/billing/page.tsx` — usage bars + upgrade/manage actions
+- [x] `components/settings/billing-actions.tsx` — client upgrade/portal buttons
+- [x] `components/billing/upgrade-dialog.tsx` — plan comparison paywall dialog
+- [x] `components/billing/plan-badge.tsx` — FREE/LITE/PRO badge
+- [x] `components/app/create-workspace-dialog.tsx` — post-onboarding workspace creation
+- [x] `components/app/sidebar.tsx` — replaced /onboarding redirect with plan-gated dialog
+- [x] `app/(app)/layout.tsx` — passes plan + ownedWorkspaceCount to Sidebar
+- [x] `app/(app)/[workspaceSlug]/settings/page.tsx` — billing shortcut card added
+- [x] `app/pricing/page.tsx` — public pricing page (Free/Lite/Pro cards + comparison table)
+- [ ] Stripe products + prices configured in dashboard (Lite $9/mo, Pro $29/mo)
+- [ ] Fill in .env.local Stripe keys and run `supabase db reset` with Docker running
 
 ## M8 — AI Features & Polish
 - [ ] `app/api/ai/generate-description/route.ts` — streaming with AI SDK

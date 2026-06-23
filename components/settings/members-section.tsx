@@ -16,7 +16,9 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { UpgradeDialog } from "@/components/billing/upgrade-dialog";
 import type { Member } from "@/lib/data/issues";
+import type { Plan } from "@/lib/plans";
 
 interface Invitation {
   id: string;
@@ -31,6 +33,7 @@ interface Props {
   isOwner: boolean;
   currentUserId: string;
   workspaceSlug: string;
+  plan?: Plan;
 }
 
 function initials(name: string | null, email: string) {
@@ -43,11 +46,12 @@ function initials(name: string | null, email: string) {
     .toUpperCase();
 }
 
-export function MembersSection({ members, invitations, isOwner, currentUserId, workspaceSlug }: Props) {
+export function MembersSection({ members, invitations, isOwner, currentUserId, workspaceSlug, plan = "free" }: Props) {
   const router = useRouter();
   const [inviteEmail, setInviteEmail] = useState("");
   const [inviting, setInviting] = useState(false);
   const [showInviteForm, setShowInviteForm] = useState(false);
+  const [showUpgrade, setShowUpgrade] = useState(false);
 
   async function handleInvite(e: React.FormEvent) {
     e.preventDefault();
@@ -61,7 +65,13 @@ export function MembersSection({ members, invitations, isOwner, currentUserId, w
       });
       const data = await res.json();
       if (!res.ok) {
-        toast.error(data.error ?? "Failed to send invite.");
+        if (data.error === "MEMBER_LIMIT_REACHED") {
+          setShowInviteForm(false);
+          setInviteEmail("");
+          setShowUpgrade(true);
+        } else {
+          toast.error(data.error ?? "Failed to send invite.");
+        }
       } else {
         toast.success(`Invite sent to ${inviteEmail.trim()}`);
         setInviteEmail("");
@@ -113,6 +123,14 @@ export function MembersSection({ members, invitations, isOwner, currentUserId, w
   }
 
   return (
+    <>
+    <UpgradeDialog
+      open={showUpgrade}
+      onOpenChange={setShowUpgrade}
+      reason="members"
+      currentPlan={plan}
+      workspaceSlug={workspaceSlug}
+    />
     <div className="space-y-8">
       {/* Current members */}
       <section>
@@ -222,5 +240,6 @@ export function MembersSection({ members, invitations, isOwner, currentUserId, w
         </section>
       )}
     </div>
+    </>
   );
 }
