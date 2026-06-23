@@ -14,7 +14,7 @@ import { PLANS, type Plan } from "@/lib/plans";
 interface Props {
   open: boolean;
   onOpenChange: (open: boolean) => void;
-  reason: "workspace" | "members";
+  reason: "workspace" | "members" | "ai";
   currentPlan: Plan;
   workspaceSlug?: string;
 }
@@ -22,7 +22,7 @@ interface Props {
 const FEATURES: Record<Plan, string[]> = {
   free: ["1 workspace", "Solo only", "Unlimited boards"],
   lite: ["10 workspaces", "2 team members each", "Unlimited boards", "Email invitations"],
-  pro: ["Unlimited workspaces", "Unlimited members", "Unlimited boards", "Email invitations", "Priority support"],
+  pro: ["Unlimited workspaces", "Unlimited members", "Unlimited boards", "Email invitations", "AI Assistant", "Priority support"],
 };
 
 export function UpgradeDialog({ open, onOpenChange, reason, currentPlan, workspaceSlug }: Props) {
@@ -31,12 +31,16 @@ export function UpgradeDialog({ open, onOpenChange, reason, currentPlan, workspa
   const title =
     reason === "workspace"
       ? "You've reached your workspace limit"
-      : "You've reached your member limit";
+      : reason === "members"
+      ? "You've reached your member limit"
+      : "AI Assistant is a Pro feature";
 
   const description =
     reason === "workspace"
       ? `The ${PLANS[currentPlan].name} plan allows ${PLANS[currentPlan].workspaces} workspace${PLANS[currentPlan].workspaces === 1 ? "" : "s"}. Upgrade to create more.`
-      : `The ${PLANS[currentPlan].name} plan allows ${PLANS[currentPlan].members} extra member${PLANS[currentPlan].members === 1 ? "" : "s"}. Upgrade to invite more people.`;
+      : reason === "members"
+      ? `The ${PLANS[currentPlan].name} plan allows ${PLANS[currentPlan].members} extra member${PLANS[currentPlan].members === 1 ? "" : "s"}. Upgrade to invite more people.`
+      : "Upgrade to Pro to chat with your issues and get AI-powered insights across all your boards.";
 
   async function upgrade(plan: "lite" | "pro") {
     setLoading(plan);

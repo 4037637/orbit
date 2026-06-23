@@ -23,3 +23,7 @@ export function memberLimit(plan: Plan): number | 'unlimited' {
   const limit = PLANS[plan].members
   return limit === Infinity ? 'unlimited' : limit
 }
+
+export function canUseAI(plan: Plan): boolean {
+  return plan === 'pro'
+}

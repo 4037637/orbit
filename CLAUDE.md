@@ -7,7 +7,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 ## Commands
 
 ```bash
-npm run dev      # Start dev server (Turbopack, outputs to .next/dev)
+npm run dev      # Start dev server on port 4000 (Turbopack, outputs to .next/dev) → http://localhost:4000
 npm run build    # Production build (Turbopack)
 npm run start    # Start production server
 npm run lint     # Run ESLint directly (not `next lint` — that command was removed in v16)
@@ -16,7 +16,7 @@ supabase start          # Start local Supabase (Docker required)
 supabase stop           # Stop local Supabase
 supabase db reset       # Reset DB and re-run all migrations
 supabase migration new <name>  # Create a new migration file
-stripe listen --forward-to localhost:3000/api/stripe/webhook  # Forward Stripe webhooks locally
+stripe listen --forward-to localhost:4000/api/stripe/webhook  # Forward Stripe webhooks locally
 ```
 
 ## Architecture

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { LayoutGrid, ChevronsUpDown, Plus, LogOut, Settings, CreditCard } from "lucide-react";
+import { LayoutGrid, ChevronsUpDown, Plus, LogOut, Settings, CreditCard, MessageSquare } from "lucide-react";
 import { createClient } from "@/lib/supabase/client";
 import { cn } from "@/lib/utils";
 import { buttonVariants } from "@/components/ui/button";
@@ -22,8 +22,9 @@ import {
 import { PlanBadge } from "@/components/billing/plan-badge";
 import { CreateWorkspaceDialog } from "@/components/app/create-workspace-dialog";
 import { UpgradeDialog } from "@/components/billing/upgrade-dialog";
+import { AIChatSheet } from "@/components/app/ai-chat-sheet";
 import type { Workspace } from "@/lib/data/boards";
-import { PLANS, type Plan } from "@/lib/plans";
+import { PLANS, canUseAI, type Plan } from "@/lib/plans";
 
 interface SidebarProps {
   workspaces: Workspace[];
@@ -37,7 +38,8 @@ export function Sidebar({ workspaces, user, plan, ownedWorkspaceCount }: Sidebar
   const router = useRouter();
   const [showCreateWs, setShowCreateWs] = useState(false);
   const [showUpgrade, setShowUpgrade] = useState(false);
-  const [upgradeReason, setUpgradeReason] = useState<"workspace" | "members">("workspace");
+  const [upgradeReason, setUpgradeReason] = useState<"workspace" | "members" | "ai">("workspace");
+  const [chatOpen, setChatOpen] = useState(false);
 
   const currentSlug = pathname.split("/")[1] ?? "";
   const currentWorkspace = workspaces.find((w) => w.slug === currentSlug);
@@ -141,6 +143,23 @@ export function Sidebar({ workspaces, user, plan, ownedWorkspaceCount }: Sidebar
             <CreditCard className="size-4" />
             Billing
           </Link>
+          <button
+            onClick={() => {
+              if (!canUseAI(plan)) {
+                setUpgradeReason("ai");
+                setShowUpgrade(true);
+              } else {
+                setChatOpen(true);
+              }
+            }}
+            className={cn(
+              buttonVariants({ variant: "ghost", size: "sm" }),
+              "w-full justify-start gap-2"
+            )}
+          >
+            <MessageSquare className="size-4" />
+            Ask AI
+          </button>
         </nav>
 
         {/* User footer */}
@@ -183,6 +202,12 @@ export function Sidebar({ workspaces, user, plan, ownedWorkspaceCount }: Sidebar
         reason={upgradeReason}
         currentPlan={plan}
         workspaceSlug={currentWorkspace?.slug}
+      />
+      <AIChatSheet
+        key={currentSlug}
+        open={chatOpen}
+        onClose={() => setChatOpen(false)}
+        workspaceSlug={currentSlug}
       />
     </>
   );
