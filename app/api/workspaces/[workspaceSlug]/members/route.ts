@@ -4,6 +4,7 @@ import { createServiceClient } from "@/lib/supabase/service";
 import { getWorkspaceBySlug } from "@/lib/data/boards";
 import { getPendingInvitations } from "@/lib/data/invitations";
 import { sendInviteEmail } from "@/lib/email/resend";
+import { canInviteMember, type Plan } from "@/lib/plans";
 
 type Context = { params: Promise<{ workspaceSlug: string }> };
 
@@ -67,6 +68,25 @@ export async function POST(request: Request, context: Context) {
 
   const normalizedEmail = email.trim().toLowerCase();
   const service = createServiceClient();
+
+  // Enforce member limit based on workspace owner's plan.
+  // Count both accepted members AND pending invitations so over-inviting is prevented.
+  const [ownerProfileResult, currentMembersResult, pendingInvitesResult] = await Promise.all([
+    supabase.from("profiles").select("plan").eq("id", workspace.owner_id).single(),
+    service.from("workspace_members").select("role").eq("workspace_id", workspace.id),
+    service
+      .from("workspace_invitations")
+      .select("id", { count: "exact", head: true })
+      .eq("workspace_id", workspace.id)
+      .is("accepted_at", null)
+      .gt("expires_at", new Date().toISOString()),
+  ]);
+  const ownerPlan = (ownerProfileResult.data?.plan ?? "free") as Plan;
+  const nonOwnerCount = (currentMembersResult.data ?? []).filter((m) => m.role !== "owner").length;
+  const pendingCount = pendingInvitesResult.count ?? 0;
+  if (!canInviteMember(ownerPlan, nonOwnerCount + pendingCount)) {
+    return NextResponse.json({ error: "MEMBER_LIMIT_REACHED" }, { status: 403 });
+  }
 
   // Run independent checks in parallel
   const [allMembersResult, existingInviteResult] = await Promise.all([

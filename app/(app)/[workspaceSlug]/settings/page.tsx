@@ -5,6 +5,7 @@ import { getWorkspaceBySlug } from "@/lib/data/boards";
 import { getWorkspaceMembers } from "@/lib/data/issues";
 import { getPendingInvitations } from "@/lib/data/invitations";
 import { MembersSection } from "@/components/settings/members-section";
+import type { Plan } from "@/lib/plans";
 
 type PageProps = { params: Promise<{ workspaceSlug: string }> };
 
@@ -21,13 +22,15 @@ export default async function SettingsPage({ params }: PageProps) {
   if (!workspace) redirect("/dashboard");
 
   const service = createServiceClient();
-  const [members, invitations] = await Promise.all([
+  const [members, invitations, profileResult] = await Promise.all([
     getWorkspaceMembers(supabase, workspace.id),
     getPendingInvitations(service, workspace.id),
+    supabase.from("profiles").select("plan").eq("id", user.id).single(),
   ]);
 
   const currentMember = members.find((m) => m.userId === user.id);
   const isOwner = currentMember?.role === "owner";
+  const plan = (profileResult.data?.plan ?? "free") as Plan;
 
   return (
     <div className="max-w-2xl mx-auto px-6 py-8">
@@ -42,6 +45,7 @@ export default async function SettingsPage({ params }: PageProps) {
         isOwner={isOwner}
         currentUserId={user.id}
         workspaceSlug={workspaceSlug}
+        plan={plan}
       />
     </div>
   );

@@ -253,6 +253,56 @@ export type Database = {
           },
         ]
       }
+      subscriptions: {
+        Row: {
+          cancel_at_period_end: boolean
+          created_at: string
+          current_period_end: string | null
+          current_period_start: string | null
+          id: string
+          plan: string
+          status: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          plan?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          cancel_at_period_end?: boolean
+          created_at?: string
+          current_period_end?: string | null
+          current_period_start?: string | null
+          id?: string
+          plan?: string
+          status?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "subscriptions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "profiles"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       profiles: {
         Row: {
           avatar_url: string | null
@@ -261,6 +311,9 @@ export type Database = {
           full_name: string | null
           id: string
           onboarding_complete: boolean
+          plan: string
+          stripe_customer_id: string | null
+          stripe_subscription_id: string | null
           updated_at: string
         }
         Insert: {
@@ -270,6 +323,9 @@ export type Database = {
           full_name?: string | null
           id: string
           onboarding_complete?: boolean
+          plan?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -279,6 +335,9 @@ export type Database = {
           full_name?: string | null
           id?: string
           onboarding_complete?: boolean
+          plan?: string
+          stripe_customer_id?: string | null
+          stripe_subscription_id?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -379,10 +438,7 @@ export type Database = {
           id: string
           name: string
           owner_id: string
-          plan: string
           slug: string
-          stripe_customer_id: string | null
-          stripe_subscription_id: string | null
           updated_at: string
         }
         Insert: {
@@ -390,10 +446,7 @@ export type Database = {
           id?: string
           name: string
           owner_id: string
-          plan?: string
           slug: string
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           updated_at?: string
         }
         Update: {
@@ -401,10 +454,7 @@ export type Database = {
           id?: string
           name?: string
           owner_id?: string
-          plan?: string
           slug?: string
-          stripe_customer_id?: string | null
-          stripe_subscription_id?: string | null
           updated_at?: string
         }
         Relationships: [
