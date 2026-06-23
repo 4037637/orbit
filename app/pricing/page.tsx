@@ -1,173 +1,185 @@
-import Link from "next/link";
-import { Check } from "lucide-react";
-import { PLANS, type Plan } from "@/lib/plans";
+import Link from 'next/link'
+import { Check, Minus, ArrowRight } from 'lucide-react'
+import MarketingNav from '@/components/marketing/nav'
+import MarketingFooter from '@/components/marketing/footer'
+import PricingCards from '@/components/marketing/pricing-cards'
 
-const FEATURES: Record<Plan, string[]> = {
-  free: [
-    "1 workspace",
-    "Unlimited boards",
-    "Solo — no team members",
-    "Email support",
-  ],
-  lite: [
-    "10 workspaces",
-    "Unlimited boards",
-    "2 team members per workspace",
-    "Email invitations",
-    "Email support",
-  ],
-  pro: [
-    "Unlimited workspaces",
-    "Unlimited boards",
-    "Unlimited team members",
-    "Email invitations",
-    "Priority support",
-  ],
-};
+const COMPARISON = [
+  { feature: 'Workspaces', free: '1', lite: '10', pro: 'Unlimited' },
+  { feature: 'Team members', free: null, lite: '2 per workspace', pro: 'Unlimited' },
+  { feature: 'Boards per workspace', free: 'Unlimited', lite: 'Unlimited', pro: 'Unlimited' },
+  { feature: 'Email invitations', free: null, lite: true, pro: true },
+  { feature: 'AI assistant', free: null, lite: null, pro: true },
+  { feature: 'Priority support', free: null, lite: null, pro: true },
+]
 
-const HIGHLIGHTED: Plan = "lite";
+const FAQ = [
+  {
+    q: 'Can I switch plans anytime?',
+    a: 'Yes — upgrades take effect immediately. Downgrades apply at the end of your billing cycle so you keep access until then.',
+  },
+  {
+    q: 'What happens when I hit a plan limit?',
+    a: "You'll see a prompt to upgrade. Your existing data is never deleted — you simply can't add more until you upgrade or free up space.",
+  },
+  {
+    q: 'Is there a free trial for paid plans?',
+    a: 'All paid plans start with a free trial when you sign up. No credit card required to start.',
+  },
+]
+
+function Cell({ value }: { value: string | boolean | null }) {
+  if (value === null) {
+    return (
+      <td className="px-6 py-4 text-center">
+        <Minus className="size-4 mx-auto" style={{ color: 'rgba(255,255,255,0.2)' }} />
+      </td>
+    )
+  }
+  if (value === true) {
+    return (
+      <td className="px-6 py-4 text-center">
+        <Check className="size-4 mx-auto" style={{ color: 'oklch(0.6 0.22 264)' }} />
+      </td>
+    )
+  }
+  return (
+    <td className="px-6 py-4 text-center text-sm" style={{ color: 'rgba(255,255,255,0.65)' }}>
+      {value}
+    </td>
+  )
+}
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-background">
-      {/* Nav */}
-      <header className="border-b">
-        <div className="max-w-5xl mx-auto px-6 h-14 flex items-center justify-between">
-          <Link href="/" className="font-bold text-lg">
-            Orbit
-          </Link>
-          <div className="flex items-center gap-4">
-            <Link
-              href="/login"
-              className="text-sm text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Sign in
-            </Link>
-            <Link
-              href="/signup"
-              className="text-sm bg-primary text-primary-foreground hover:bg-primary/90 transition-colors px-4 py-2 rounded-md font-medium"
-            >
-              Get started free
-            </Link>
-          </div>
-        </div>
-      </header>
+    <div
+      className="dark min-h-screen antialiased"
+      style={{ background: 'oklch(0.1 0 0)', color: 'oklch(0.985 0 0)' }}
+    >
+      <MarketingNav />
 
-      <main className="max-w-5xl mx-auto px-6 py-20">
-        {/* Heading */}
-        <div className="text-center mb-16">
-          <h1 className="text-4xl font-bold tracking-tight mb-4">
-            Simple, transparent pricing
+      <main className="max-w-5xl mx-auto px-6 pt-36 pb-24">
+        {/* Hero */}
+        <div className="text-center mb-20">
+          <h1 className="text-4xl sm:text-5xl font-bold tracking-tight text-white mb-5">
+            Find the right plan
           </h1>
-          <p className="text-lg text-muted-foreground max-w-xl mx-auto">
-            Start for free. Upgrade as your team grows.
+          <p className="text-lg max-w-xl mx-auto" style={{ color: 'rgba(255,255,255,0.48)' }}>
+            Start for free with one workspace. Upgrade as your team grows — no surprises.
           </p>
         </div>
 
         {/* Pricing cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-20">
-          {(["free", "lite", "pro"] as Plan[]).map((plan) => {
-            const isHighlighted = plan === HIGHLIGHTED;
-            return (
-              <div
-                key={plan}
-                className={`relative rounded-2xl border p-8 flex flex-col gap-6 ${
-                  isHighlighted
-                    ? "border-primary ring-2 ring-primary shadow-lg"
-                    : "shadow-sm"
-                }`}
-              >
-                {isHighlighted && (
-                  <span className="absolute -top-3 left-1/2 -translate-x-1/2 bg-primary text-primary-foreground text-xs font-semibold px-3 py-1 rounded-full">
-                    Most popular
-                  </span>
-                )}
-
-                <div>
-                  <p className="text-sm font-medium text-muted-foreground uppercase tracking-wide mb-2">
-                    {PLANS[plan].name}
-                  </p>
-                  <p className="text-4xl font-bold">
-                    {PLANS[plan].price === 0 ? (
-                      "Free"
-                    ) : (
-                      <>
-                        ${PLANS[plan].price}
-                        <span className="text-base font-normal text-muted-foreground">
-                          /mo
-                        </span>
-                      </>
-                    )}
-                  </p>
-                </div>
-
-                <ul className="space-y-3 flex-1">
-                  {FEATURES[plan].map((feature) => (
-                    <li key={feature} className="flex items-start gap-3 text-sm">
-                      <Check className="size-4 mt-0.5 shrink-0 text-primary" />
-                      {feature}
-                    </li>
-                  ))}
-                </ul>
-
-                <Link
-                  href="/signup"
-                  className={`text-center text-sm font-medium py-2.5 rounded-lg transition-colors ${
-                    isHighlighted
-                      ? "bg-primary text-primary-foreground hover:bg-primary/90"
-                      : "border border-input hover:bg-accent"
-                  }`}
-                >
-                  {PLANS[plan].price === 0 ? "Get started free" : "Start free trial"}
-                </Link>
-              </div>
-            );
-          })}
-        </div>
+        <PricingCards />
 
         {/* Feature comparison table */}
-        <div className="rounded-2xl border overflow-hidden">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b bg-muted/40">
-                <th className="text-left px-6 py-4 font-medium w-1/2">Feature</th>
-                <th className="text-center px-6 py-4 font-medium">Free</th>
-                <th className="text-center px-6 py-4 font-medium">Lite</th>
-                <th className="text-center px-6 py-4 font-medium">Pro</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y">
-              {[
-                ["Workspaces", "1", "10", "Unlimited"],
-                ["Team members", "Solo only", "2 per workspace", "Unlimited"],
-                ["Boards per workspace", "Unlimited", "Unlimited", "Unlimited"],
-                ["Email invitations", "—", "✓", "✓"],
-                ["Priority support", "—", "—", "✓"],
-              ].map(([feature, free, lite, pro]) => (
-                <tr key={feature} className="hover:bg-muted/20 transition-colors">
-                  <td className="px-6 py-4 text-muted-foreground">{feature}</td>
-                  <td className="px-6 py-4 text-center">{free}</td>
-                  <td className="px-6 py-4 text-center">{lite}</td>
-                  <td className="px-6 py-4 text-center">{pro}</td>
+        <div className="mt-24 mb-20">
+          <h2 className="text-xl font-bold text-white mb-8">Compare all features</h2>
+          <div
+            className="rounded-2xl overflow-hidden"
+            style={{ border: '1px solid rgba(255,255,255,0.07)' }}
+          >
+            <table className="w-full text-sm">
+              <thead>
+                <tr style={{ borderBottom: '1px solid rgba(255,255,255,0.07)' }}>
+                  <th
+                    className="text-left px-6 py-4 font-medium w-1/2"
+                    style={{
+                      background: 'oklch(0.15 0 0)',
+                      color: 'rgba(255,255,255,0.4)',
+                    }}
+                  >
+                    Feature
+                  </th>
+                  {['Free', 'Lite', 'Pro'].map((plan, i) => (
+                    <th
+                      key={plan}
+                      className="text-center px-6 py-4 font-semibold"
+                      style={{
+                        background:
+                          i === 1 ? 'oklch(0.18 0.04 264)' : 'oklch(0.15 0 0)',
+                        color: i === 1 ? 'oklch(0.75 0.15 264)' : 'rgba(255,255,255,0.7)',
+                      }}
+                    >
+                      {plan}
+                    </th>
+                  ))}
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {COMPARISON.map((row, ri) => (
+                  <tr
+                    key={row.feature}
+                    style={{
+                      borderTop: ri > 0 ? '1px solid rgba(255,255,255,0.05)' : undefined,
+                      background:
+                        ri % 2 === 0 ? 'oklch(0.13 0 0)' : 'oklch(0.145 0 0)',
+                    }}
+                  >
+                    <td
+                      className="px-6 py-4"
+                      style={{ color: 'rgba(255,255,255,0.55)' }}
+                    >
+                      {row.feature}
+                    </td>
+                    <Cell value={row.free} />
+                    <Cell value={row.lite} />
+                    <Cell value={row.pro} />
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
         </div>
 
-        {/* FAQ / CTA */}
-        <div className="text-center mt-20">
-          <p className="text-muted-foreground mb-4">
-            Questions? We&apos;re happy to help.
+        {/* FAQ */}
+        <div className="mb-24">
+          <h2 className="text-xl font-bold text-white mb-8">Frequently asked questions</h2>
+          <div className="space-y-4">
+            {FAQ.map((item) => (
+              <div
+                key={item.q}
+                className="rounded-2xl p-6"
+                style={{
+                  background: 'oklch(0.15 0 0)',
+                  border: '1px solid rgba(255,255,255,0.07)',
+                }}
+              >
+                <p className="font-semibold text-white mb-2">{item.q}</p>
+                <p className="text-sm leading-relaxed" style={{ color: 'rgba(255,255,255,0.5)' }}>
+                  {item.a}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div
+          className="rounded-3xl p-14 text-center"
+          style={{
+            background: 'oklch(0.15 0 0)',
+            border: '1px solid rgba(255,255,255,0.08)',
+          }}
+        >
+          <h2 className="text-3xl font-bold text-white mb-4">
+            Start building today
+          </h2>
+          <p className="mb-8" style={{ color: 'rgba(255,255,255,0.45)' }}>
+            No credit card required. Free plan always available.
           </p>
           <Link
             href="/signup"
-            className="inline-flex items-center bg-primary text-primary-foreground hover:bg-primary/90 transition-colors px-6 py-3 rounded-lg font-medium"
+            className="inline-flex items-center gap-2 rounded-xl px-8 py-4 font-semibold text-white transition-all hover:opacity-90 active:scale-95"
+            style={{ background: 'oklch(0.6 0.22 264)' }}
           >
-            Get started for free
+            Get started free
+            <ArrowRight className="size-4" />
           </Link>
         </div>
       </main>
+
+      <MarketingFooter />
     </div>
-  );
+  )
 }

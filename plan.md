@@ -93,3 +93,15 @@
 - [ ] `components/app/error-boundary.tsx`
 - [ ] Loading skeletons for BoardCard, IssueCard, Column
 - [ ] Empty states for zero-boards / zero-issues views
+
+## M9 — Marketing Landing Page & Pricing
+- [x] `app/page.tsx` — full dark-mode landing page (hero, features, pricing section, CTA band)
+- [x] `components/marketing/nav.tsx` — sticky nav with scroll-blur effect, Orbit logo, Log in + Get started CTA
+- [x] `components/marketing/footer.tsx` — logo, product/account link columns, built-with line
+- [x] `components/marketing/features.tsx` — 3-feature grid (Kanban boards, Team collaboration, AI assistant)
+- [x] `components/marketing/pricing-cards.tsx` — shared Free/Lite/Pro cards; Lite highlighted + scaled
+- [x] `app/pricing/page.tsx` — enhanced pricing page with comparison table, FAQ, CTA band
+- [x] `proxy.ts` — added `isMarketingPage` guard so `/pricing` is accessible without auth
+- [x] `.mcp.json` — Playwright MCP server config (takes effect on session restart)
+- [x] Dashboard mockup — CSS/HTML kanban mockup in hero (browser chrome, sidebar, 3 columns, 7 cards)
+- [x] Playwright verification — all checks pass: desktop + mobile viewports, no overflow, no console errors

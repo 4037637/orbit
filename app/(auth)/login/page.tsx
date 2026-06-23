@@ -88,16 +88,14 @@ function LoginForm() {
 
 export default function LoginPage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-sm">
-        <CardHeader className="space-y-1">
-          <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
-          <CardDescription>Enter your email and password to access your workspace</CardDescription>
-        </CardHeader>
-        <Suspense>
-          <LoginForm />
-        </Suspense>
-      </Card>
-    </div>
+    <Card className="w-full max-w-sm">
+      <CardHeader className="space-y-1">
+        <CardTitle className="text-2xl font-bold">Sign in</CardTitle>
+        <CardDescription>Enter your email and password to access your workspace</CardDescription>
+      </CardHeader>
+      <Suspense>
+        <LoginForm />
+      </Suspense>
+    </Card>
   );
 }

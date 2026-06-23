@@ -61,35 +61,32 @@ export default function SignupPage() {
 
   if (emailSent) {
     return (
-      <div className="flex min-h-screen items-center justify-center bg-background px-4">
-        <Card className="w-full max-w-sm text-center">
-          <CardHeader className="items-center gap-2">
-            <MailCheck className="size-10 text-primary" />
-            <CardTitle className="text-xl font-bold">Check your email</CardTitle>
-            <CardDescription>
-              We sent a confirmation link to <strong>{email}</strong>. Click it
-              to activate your account and get started.
-            </CardDescription>
-          </CardHeader>
-          <CardFooter className="flex-col gap-2">
-            <p className="text-center text-sm text-muted-foreground">
-              Already confirmed?{" "}
-              <Link
-                href="/login"
-                className="font-medium text-foreground underline underline-offset-4"
-              >
-                Sign in
-              </Link>
-            </p>
-          </CardFooter>
-        </Card>
-      </div>
+      <Card className="w-full max-w-sm text-center">
+        <CardHeader className="items-center gap-2">
+          <MailCheck className="size-10 text-primary" />
+          <CardTitle className="text-xl font-bold">Check your email</CardTitle>
+          <CardDescription>
+            We sent a confirmation link to <strong>{email}</strong>. Click it
+            to activate your account and get started.
+          </CardDescription>
+        </CardHeader>
+        <CardFooter className="flex-col gap-2">
+          <p className="text-center text-sm text-muted-foreground">
+            Already confirmed?{" "}
+            <Link
+              href="/login"
+              className="font-medium text-foreground underline underline-offset-4"
+            >
+              Sign in
+            </Link>
+          </p>
+        </CardFooter>
+      </Card>
     );
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background px-4">
-      <Card className="w-full max-w-sm">
+    <Card className="w-full max-w-sm">
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold">Create an account</CardTitle>
           <CardDescription>
@@ -161,7 +158,6 @@ export default function SignupPage() {
             </p>
           </CardFooter>
         </form>
-      </Card>
-    </div>
+    </Card>
   );
 }

@@ -10,11 +10,12 @@ export async function proxy(request: NextRequest) {
   const isDashboard = pathname.startsWith("/dashboard");
   const isOnboarding = pathname.startsWith("/onboarding");
   // App routes: /{workspaceSlug}/... — any non-root path that isn't a known public route
+  const isMarketingPage = pathname === "/" || pathname === "/pricing"
   const isAppRoute =
     !isAuthPage &&
     !isDashboard &&
     !isOnboarding &&
-    pathname !== "/" &&
+    !isMarketingPage &&
     !pathname.startsWith("/auth/") &&
     !pathname.startsWith("/api/");
 
