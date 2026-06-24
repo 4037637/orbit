@@ -1,6 +1,3 @@
--- Enable required extensions
-create extension if not exists "uuid-ossp";
-
 -- ─── TABLE DEFINITIONS ────────────────────────────────────────────────────────
 -- All tables created before any policies so cross-table references work.
 
@@ -15,7 +12,7 @@ create table if not exists public.profiles (
 );
 
 create table if not exists public.workspaces (
-  id                      uuid primary key default uuid_generate_v4(),
+  id                      uuid primary key default gen_random_uuid(),
   name                    text not null,
   slug                    text not null unique,
   owner_id                uuid not null references public.profiles on delete restrict,
@@ -27,7 +24,7 @@ create table if not exists public.workspaces (
 );
 
 create table if not exists public.workspace_members (
-  id            uuid primary key default uuid_generate_v4(),
+  id            uuid primary key default gen_random_uuid(),
   workspace_id  uuid not null references public.workspaces on delete cascade,
   user_id       uuid not null references public.profiles on delete cascade,
   role          text not null default 'member' check (role in ('owner', 'member')),
@@ -37,7 +34,7 @@ create table if not exists public.workspace_members (
 );
 
 create table if not exists public.boards (
-  id            uuid primary key default uuid_generate_v4(),
+  id            uuid primary key default gen_random_uuid(),
   workspace_id  uuid not null references public.workspaces on delete cascade,
   name          text not null,
   description   text,
@@ -48,7 +45,7 @@ create table if not exists public.boards (
 );
 
 create table if not exists public.columns (
-  id          uuid primary key default uuid_generate_v4(),
+  id          uuid primary key default gen_random_uuid(),
   board_id    uuid not null references public.boards on delete cascade,
   name        text not null,
   position    float not null default 0,
@@ -59,7 +56,7 @@ create table if not exists public.columns (
 create type public.issue_priority as enum ('none', 'low', 'medium', 'high', 'urgent');
 
 create table if not exists public.issues (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   column_id    uuid not null references public.columns on delete cascade,
   board_id     uuid not null references public.boards on delete cascade,
   title        text not null,

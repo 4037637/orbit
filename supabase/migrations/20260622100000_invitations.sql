@@ -1,9 +1,11 @@
+create extension if not exists "pgcrypto";
+
 create table public.workspace_invitations (
-  id           uuid primary key default uuid_generate_v4(),
+  id           uuid primary key default gen_random_uuid(),
   workspace_id uuid not null references public.workspaces on delete cascade,
   email        text not null,
   invited_by   uuid not null references public.profiles(id),
-  token        text not null unique default encode(gen_random_bytes(32), 'hex'),
+  token        text not null unique default encode(extensions.gen_random_bytes(32), 'hex'),
   accepted_at  timestamptz,
   expires_at   timestamptz not null default now() + interval '7 days',
   created_at   timestamptz not null default now()
