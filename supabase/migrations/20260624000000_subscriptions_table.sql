@@ -1,5 +1,5 @@
 create table if not exists public.subscriptions (
-  id                    uuid primary key default uuid_generate_v4(),
+  id                    uuid primary key default gen_random_uuid(),
   user_id               uuid not null references public.profiles on delete cascade,
   stripe_subscription_id text unique,
   stripe_customer_id    text,

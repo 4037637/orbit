@@ -4,7 +4,7 @@ alter table public.issues add column if not exists due_date date;
 -- ─── labels ───────────────────────────────────────────────────────────────────
 
 create table if not exists public.labels (
-  id            uuid primary key default uuid_generate_v4(),
+  id            uuid primary key default gen_random_uuid(),
   workspace_id  uuid not null references public.workspaces on delete cascade,
   name          text not null,
   color         text not null default '#6366f1',

@@ -1,107 +1,91 @@
 # Orbit — Milestone Tracker
 
 ## M1 — Foundation & Design System
-- [x] shadcn/ui initialized (`npx shadcn@latest init`)
-- [x] Core shadcn components added (button, input, label, card, dialog, dropdown-menu, avatar, badge, separator, skeleton, sonner, sheet)
-- [x] `next-themes` ThemeProvider wired in `app/layout.tsx` (dark default)
-- [x] `components/theme-toggle.tsx` — sun/moon toggle
-- [x] `proxy.ts` scaffold (pass-through placeholder)
-- [x] Tailwind 4 CSS variables extended for Orbit palette
+
+- [X] shadcn/ui initialized (`npx shadcn@latest init`)
+- [X] Core shadcn components added (button, input, label, card, dialog, dropdown-menu, avatar, badge, separator, skeleton, sonner, sheet)
+- [X] `next-themes` ThemeProvider wired in `app/layout.tsx` (dark default)
+- [X] `components/theme-toggle.tsx` — sun/moon toggle
+- [X] `proxy.ts` scaffold (pass-through placeholder)
+- [X] Tailwind 4 CSS variables extended for Orbit palette
 
 ## M2 — Supabase Auth & Database
-- [x] `supabase init` + Supabase CLI installed (`supabase` npm dev dep)
-- [x] `supabase/migrations/20260621120959_initial_schema.sql` — all tables + RLS policies
-  - [x] `profiles`
-  - [x] `workspaces`
-  - [x] `workspace_members`
-  - [x] `boards`
-  - [x] `columns`
-  - [x] `issues`
-- [x] `lib/supabase/server.ts` — async-cookies server client
-- [x] `lib/supabase/client.ts` — browser client singleton
-- [x] `lib/supabase/middleware.ts` — session refresh helper
-- [x] `lib/supabase/types.ts` — typed Database interface
-- [x] `app/(auth)/login/page.tsx` — email/password form
-- [x] `app/(auth)/signup/page.tsx` — email/password form
-- [x] `app/auth/callback/route.ts` — PKCE exchange
-- [x] `proxy.ts` — session refresh + `/dashboard/*` guard
+
+- [X] `supabase init` + Supabase CLI installed (`supabase` npm dev dep)
+- [X] `supabase/migrations/20260621120959_initial_schema.sql` — all tables + RLS policies
+  - [X] `profiles`
+  - [X] `workspaces`
+  - [X] `workspace_members`
+  - [X] `boards`
+  - [X] `columns`
+  - [X] `issues`
+- [X] `lib/supabase/server.ts` — async-cookies server client
+- [X] `lib/supabase/client.ts` — browser client singleton
+- [X] `lib/supabase/middleware.ts` — session refresh helper
+- [X] `lib/supabase/types.ts` — typed Database interface
+- [X] `app/(auth)/login/page.tsx` — email/password form
+- [X] `app/(auth)/signup/page.tsx` — email/password form
+- [X] `app/auth/callback/route.ts` — PKCE exchange
+- [X] `proxy.ts` — session refresh + `/dashboard/*` guard
 - [ ] `supabase start` — requires Docker Desktop running locally
 
 ## M3 — Onboarding & Welcome Email
-- [x] `app/onboarding/page.tsx` — multi-step wizard shell
-- [x] `components/onboarding/workspace-form.tsx`
-- [x] `components/onboarding/team-invite-form.tsx`
-- [x] `components/onboarding/onboarding-done.tsx`
-- [x] `app/api/onboarding/route.ts` — create workspace, set onboarding_complete, send email
-- [x] `lib/email/resend.ts` — `sendWelcomeEmail()`
-- [x] `proxy.ts` — redirect to `/onboarding` if `onboarding_complete = false`
+
+- [X] `app/onboarding/page.tsx` — multi-step wizard shell
+- [X] `components/onboarding/workspace-form.tsx`
+- [X] `components/onboarding/team-invite-form.tsx`
+- [X] `components/onboarding/onboarding-done.tsx`
+- [X] `app/api/onboarding/route.ts` — create workspace, set onboarding_complete, send email
+- [X] `lib/email/resend.ts` — `sendWelcomeEmail()`
+- [X] `proxy.ts` — redirect to `/onboarding` if `onboarding_complete = false`
 
 ## M4 — Workspaces & Boards
-- [x] `app/(app)/layout.tsx` — authenticated sidebar shell
-- [x] `app/(app)/[workspaceSlug]/page.tsx` — workspace home
-- [x] `app/(app)/[workspaceSlug]/boards/page.tsx` — board grid
-- [x] `app/(app)/[workspaceSlug]/boards/[boardId]/page.tsx` — single board shell
-- [x] `components/app/sidebar.tsx` — nav + workspace switcher
-- [x] `components/app/board-card.tsx`
-- [x] `components/app/create-board-dialog.tsx`
-- [x] `app/api/workspaces/[workspaceSlug]/boards/route.ts` — GET + POST
-- [x] `lib/data/boards.ts` — query helpers
+
+- [X] `app/(app)/layout.tsx` — authenticated sidebar shell
+- [X] `app/(app)/[workspaceSlug]/page.tsx` — workspace home
+- [X] `app/(app)/[workspaceSlug]/boards/page.tsx` — board grid
+- [X] `app/(app)/[workspaceSlug]/boards/[boardId]/page.tsx` — single board shell
+- [X] `components/app/sidebar.tsx` — nav + workspace switcher
+- [X] `components/app/board-card.tsx`
+- [X] `components/app/create-board-dialog.tsx`
+- [X] `app/api/workspaces/[workspaceSlug]/boards/route.ts` — GET + POST
+- [X] `lib/data/boards.ts` — query helpers
 
 ## M5 — Kanban Board with Drag-and-Drop
-- [x] `components/kanban/board.tsx` — DndContext host
-- [x] `components/kanban/column.tsx` — droppable column
-- [x] `components/kanban/issue-card.tsx` — draggable card
-- [x] `components/kanban/issue-detail-sheet.tsx` — edit sheet
-- [x] `components/kanban/create-issue-dialog.tsx`
-- [x] `app/api/issues/route.ts` — POST
-- [x] `app/api/issues/[issueId]/route.ts` — PATCH + DELETE
-- [x] `lib/data/issues.ts` — query helpers
-- [x] Fractional indexing reorder (midpoint strategy)
+
+- [X] `components/kanban/board.tsx` — DndContext host
+- [X] `components/kanban/column.tsx` — droppable column
+- [X] `components/kanban/issue-card.tsx` — draggable card
+- [X] `components/kanban/issue-detail-sheet.tsx` — edit sheet
+- [X] `components/kanban/create-issue-dialog.tsx`
+- [X] `app/api/issues/route.ts` — POST
+- [X] `app/api/issues/[issueId]/route.ts` — PATCH + DELETE
+- [X] `lib/data/issues.ts` — query helpers
+- [X] Fractional indexing reorder (midpoint strategy)
 
 ## M6 — Team & User Management
-- [ ] `app/(app)/[workspaceSlug]/settings/layout.tsx` — settings sidebar
-- [ ] `app/(app)/[workspaceSlug]/settings/members/page.tsx` — member list
-- [ ] `components/settings/invite-member-dialog.tsx`
-- [ ] `app/api/workspaces/[workspaceSlug]/members/route.ts` — GET + POST
-- [ ] `app/api/workspaces/[workspaceSlug]/members/[memberId]/route.ts` — PATCH + DELETE
-- [ ] `lib/data/members.ts` — query helpers with owner-only RLS
 
-## M7 — Stripe Billing (Free / Lite / Pro)
-- [x] `supabase/migrations/20260623000000_billing_on_profiles.sql` — move plan+stripe fields to profiles, add 'free' tier
-- [x] `lib/plans.ts` — PLANS config + canCreateWorkspace / canInviteMember helpers
-- [x] `lib/stripe.ts` — SDK singleton
-- [x] `app/api/workspaces/route.ts` — POST create workspace (plan-gated)
-- [x] `app/api/stripe/checkout/route.ts`
-- [x] `app/api/stripe/portal/route.ts`
-- [x] `app/api/stripe/webhook/route.ts` — checkout.session.completed, subscription.updated/deleted
-- [x] `app/api/workspaces/[workspaceSlug]/members/route.ts` — member limit enforcement added
-- [x] `app/(app)/[workspaceSlug]/settings/billing/page.tsx` — usage bars + upgrade/manage actions
-- [x] `components/settings/billing-actions.tsx` — client upgrade/portal buttons
-- [x] `components/billing/upgrade-dialog.tsx` — plan comparison paywall dialog
-- [x] `components/billing/plan-badge.tsx` — FREE/LITE/PRO badge
-- [x] `components/app/create-workspace-dialog.tsx` — post-onboarding workspace creation
-- [x] `components/app/sidebar.tsx` — replaced /onboarding redirect with plan-gated dialog
-- [x] `app/(app)/layout.tsx` — passes plan + ownedWorkspaceCount to Sidebar
-- [x] `app/(app)/[workspaceSlug]/settings/page.tsx` — billing shortcut card added
-- [x] `app/pricing/page.tsx` — public pricing page (Free/Lite/Pro cards + comparison table)
-- [ ] Stripe products + prices configured in dashboard (Lite $9/mo, Pro $29/mo)
-- [ ] Fill in .env.local Stripe keys and run `supabase db reset` with Docker running
+- [X] `app/(app)/[workspaceSlug]/settings/layout.tsx` — settings sidebar
+- [X] `app/(app)/[workspaceSlug]/settings/members/page.tsx` — member list
+- [X] `components/settings/invite-member-dialog.tsx`
+- [X] `app/api/workspaces/[workspaceSlug]/members/route.ts` — GET + POST
+- [X] `app/api/workspaces/[workspaceSlug]/members/[memberId]/route.ts` — PATCH + DELETE
+- [X] `lib/data/members.ts` — query helpers with owner-only RLS
+
+## M7 — Stripe Billing (Lite / Pro)
+
+- [X] `lib/stripe.ts` — SDK singleton
+- [X] `lib/plans.ts` — `canUseFeature(plan, feature)`
+- [X] `app/(app)/[workspaceSlug]/settings/billing/page.tsx`
+- [X] `app/api/stripe/checkout/route.ts`
+- [X] `app/api/stripe/portal/route.ts`
+- [X] `app/api/stripe/webhook/route.ts` — subscription lifecycle events
+- [X] Stripe products + prices configured in dashboard (Lite/Pro)
 
 ## M8 — AI Features & Polish
-- [ ] `app/api/ai/generate-description/route.ts` — streaming with AI SDK
-- [ ] `components/kanban/ai-description-button.tsx`
-- [ ] `components/app/error-boundary.tsx`
-- [ ] Loading skeletons for BoardCard, IssueCard, Column
-- [ ] Empty states for zero-boards / zero-issues views
 
-## M9 — Marketing Landing Page & Pricing
-- [x] `app/page.tsx` — full dark-mode landing page (hero, features, pricing section, CTA band)
-- [x] `components/marketing/nav.tsx` — sticky nav with scroll-blur effect, Orbit logo, Log in + Get started CTA
-- [x] `components/marketing/footer.tsx` — logo, product/account link columns, built-with line
-- [x] `components/marketing/features.tsx` — 3-feature grid (Kanban boards, Team collaboration, AI assistant)
-- [x] `components/marketing/pricing-cards.tsx` — shared Free/Lite/Pro cards; Lite highlighted + scaled
-- [x] `app/pricing/page.tsx` — enhanced pricing page with comparison table, FAQ, CTA band
-- [x] `proxy.ts` — added `isMarketingPage` guard so `/pricing` is accessible without auth
-- [x] `.mcp.json` — Playwright MCP server config (takes effect on session restart)
-- [x] Dashboard mockup — CSS/HTML kanban mockup in hero (browser chrome, sidebar, 3 columns, 7 cards)
-- [x] Playwright verification — all checks pass: desktop + mobile viewports, no overflow, no console errors
+- [X] `app/api/ai/generate-description/route.ts` — streaming with AI SDK
+- [X] `components/kanban/ai-description-button.tsx`
+- [X] `components/app/error-boundary.tsx`
+- [X] Loading skeletons for BoardCard, IssueCard, Column
+- [X] Empty states for zero-boards / zero-issues views
